@@ -13,6 +13,7 @@
 - 📊 **实时统计** - 动态展示巡店进度和完成率
 - 📝 **话术侧边栏** - 内置20条每日群发话术模板，点击即可复制
 - 📋 **快速复制** - 点击店铺名称即可复制，方便发送消息
+- 🖥️ **Tauri 支持** - 完美兼容桌面应用环境，剪贴板功能无缝工作
 - 🗓️ **日期自动更新** - 每天打开自动显示当前日期，数据按日期隔离
 - 💾 **本地存储** - 数据保存在浏览器本地，无需服务器
 - 📱 **响应式设计** - 完美适配各种屏幕尺寸
@@ -99,25 +100,29 @@ npm run build
 ## 📁 项目结构
 
 ```
-├── app/                      # Next.js 应用目录
-│   ├── page.tsx             # 主页面（核心业务逻辑）
-│   ├── layout.tsx           # 根布局组件
-│   └── globals.css          # 全局样式
-├── components/              # React 组件
-│   ├── shop-import.tsx      # 店铺导入组件
-│   ├── shop-list.tsx        # 店铺列表组件（支持点击复制）
-│   ├── progress-stats.tsx   # 统计展示组件
-│   └── script-sidebar.tsx   # 话术侧边栏组件 ✨
-├── lib/                     # 工具库
-│   ├── types.ts            # TypeScript 类型定义
-│   ├── utils.ts            # 工具函数（日期、ID生成等）
-│   └── storage.ts          # 本地存储逻辑（localStorage）
-├── .github/workflows/       # GitHub Actions 配置
-│   └── deploy.yml          # 自动部署工作流
-├── 每日群发话术.md          # 话术模板文档（20条）
-├── next.config.ts          # Next.js 配置（含 GitHub Pages 路径）
-├── tailwind.config.ts      # Tailwind CSS 配置
-└── package.json            # 项目依赖
+├── app/                               # Next.js 应用目录
+│   ├── page.tsx                      # 主页面（核心业务逻辑）
+│   ├── layout.tsx                    # 根布局组件（含剪贴板权限策略）
+│   ├── test-clipboard/               # 剪贴板测试页面
+│   └── globals.css                   # 全局样式
+├── components/                        # React 组件
+│   ├── shop-import.tsx               # 店铺导入组件
+│   ├── shop-list.tsx                 # 店铺列表组件（支持点击复制）
+│   ├── progress-stats.tsx            # 统计展示组件
+│   └── script-sidebar.tsx            # 话术侧边栏组件 ✨
+├── lib/                              # 工具库
+│   ├── types.ts                     # TypeScript 类型定义
+│   ├── utils.ts                     # 工具函数（含 Tauri 剪贴板支持）
+│   └── storage.ts                   # 本地存储逻辑（localStorage）
+├── .github/workflows/                # GitHub Actions 配置
+│   └── deploy.yml                   # 自动部署工作流
+├── CLAUDE.md                         # AI 助手上下文文档
+├── TAURI_DOWNLOAD_INTEGRATION_GUIDE.md  # Tauri 下载集成完整指南
+├── TAURI_DOWNLOAD_QUICK_START.md    # Tauri 下载快速入门
+├── 每日群发话术.md                    # 话术模板文档（20条）
+├── next.config.ts                    # Next.js 配置（含 GitHub Pages 路径）
+├── tailwind.config.ts                # Tailwind CSS 配置
+└── package.json                      # 项目依赖
 ```
 
 ## 💡 数据存储
@@ -147,6 +152,29 @@ npm run build
 3. **响应迅速**：本地存储，无需网络请求
 4. **功能完整**：从导入到统计，一站式解决
 5. **使用便捷**：点击复制，一键群发
+6. **跨平台兼容**：支持浏览器和 Tauri 桌面应用环境
+
+## 🖥️ Tauri 桌面应用集成
+
+本项目已完美适配 Tauri 桌面应用环境：
+
+### 剪贴板支持
+- ✅ 自动检测 Tauri 环境
+- ✅ 多层回退方案确保复制功能始终可用
+- ✅ 优先使用 Tauri 原生 clipboard API
+- ✅ 回退到浏览器 Clipboard API
+- ✅ 最终回退到 execCommand 方案
+
+### 测试页面
+访问 `/test-clipboard` 页面可测试剪贴板功能：
+- 显示 Tauri API 可用性详情
+- 提供多种复制方法测试
+- 实时显示环境信息和调试日志
+
+### 集成文档
+项目包含完整的 Tauri 集成指南：
+- `TAURI_DOWNLOAD_INTEGRATION_GUIDE.md` - 详细集成指南
+- `TAURI_DOWNLOAD_QUICK_START.md` - 快速入门文档
 
 ## 📝 许可证
 
