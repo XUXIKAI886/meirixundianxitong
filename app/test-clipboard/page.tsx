@@ -14,8 +14,13 @@ export default function TestClipboardPage() {
   // 客户端加载环境信息
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      const tauri = (window as any).__TAURI__;
       const info = `navigator.clipboard: ${typeof navigator.clipboard}
-window.__TAURI__: ${typeof (window as any).__TAURI__}
+window.__TAURI__: ${typeof tauri}
+__TAURI__.clipboard: ${typeof tauri?.clipboard}
+__TAURI__.clipboard.writeText: ${typeof tauri?.clipboard?.writeText}
+__TAURI__.core: ${typeof tauri?.core}
+__TAURI__.core.invoke: ${typeof tauri?.core?.invoke}
 userAgent: ${navigator.userAgent}`;
       setEnvInfo(info);
     }
