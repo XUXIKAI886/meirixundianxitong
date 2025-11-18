@@ -13,6 +13,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN">
+      <head>
+        <meta httpEquiv="Permissions-Policy" content="clipboard-read=*, clipboard-write=*" />
+      </head>
       <body className="antialiased">
         {children}
       </body>
