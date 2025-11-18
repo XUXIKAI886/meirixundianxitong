@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { copyToClipboard } from '@/lib/utils';
 
 /**
@@ -9,6 +9,17 @@ import { copyToClipboard } from '@/lib/utils';
 export default function TestClipboardPage() {
   const [status, setStatus] = useState<string>('');
   const [testText] = useState('测试文本：每日巡店系统');
+  const [envInfo, setEnvInfo] = useState<string>('加载中...');
+
+  // 客户端加载环境信息
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const info = `navigator.clipboard: ${typeof navigator.clipboard}
+window.__TAURI__: ${typeof (window as any).__TAURI__}
+userAgent: ${navigator.userAgent}`;
+      setEnvInfo(info);
+    }
+  }, []);
 
   const handleTestCopy = async () => {
     setStatus('测试中...');
@@ -85,9 +96,7 @@ export default function TestClipboardPage() {
           <div className="mt-4 p-4 bg-gray-50 rounded-md">
             <p className="text-sm font-medium text-gray-700 mb-2">环境信息：</p>
             <pre className="text-xs bg-white p-3 rounded border overflow-auto">
-{`navigator.clipboard: ${typeof navigator.clipboard}
-window.__TAURI__: ${typeof (window as any).__TAURI__}
-userAgent: ${navigator.userAgent}`}
+{envInfo}
             </pre>
           </div>
         </div>
