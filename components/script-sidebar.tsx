@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Copy, Check, MessageSquare, ChevronLeft, ChevronRight } from 'lucide-react';
+import { copyToClipboard } from '@/lib/utils';
 
 interface Script {
   id: number;
@@ -117,13 +118,13 @@ export function ScriptSidebar() {
   const [copiedId, setCopiedId] = useState<number | null>(null);
 
   const handleCopy = async (script: Script) => {
-    try {
-      await navigator.clipboard.writeText(script.content);
+    const success = await copyToClipboard(script.content);
+    if (success) {
       setCopiedId(script.id);
       setTimeout(() => {
         setCopiedId(null);
       }, 2000);
-    } catch (err) {
+    } else {
       alert('复制失败，请手动复制');
     }
   };

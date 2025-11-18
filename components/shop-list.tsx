@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Shop } from '@/lib/types';
+import { copyToClipboard } from '@/lib/utils';
 import { CheckCircle2, Circle, Copy } from 'lucide-react';
 
 interface ShopListProps {
@@ -17,14 +18,14 @@ export function ShopList({ shops, onToggle }: ShopListProps) {
 
   // 复制店铺名称
   const handleCopyShopName = async (shop: Shop) => {
-    try {
-      await navigator.clipboard.writeText(shop.name);
+    const success = await copyToClipboard(shop.name);
+    if (success) {
       setCopiedId(shop.id);
       // 1.5秒后清除复制提示
       setTimeout(() => {
         setCopiedId(null);
       }, 1500);
-    } catch (err) {
+    } else {
       alert('复制失败，请手动复制');
     }
   };
